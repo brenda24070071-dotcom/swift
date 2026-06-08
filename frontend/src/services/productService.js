@@ -9,6 +9,14 @@ export const productService = {
   remove: (id)         => api.delete(`/products/${id}`).then(r => r.data),
 };
 
+export const reviewService = {
+  // Lista avaliações de um produto → { data, total, media }
+  listByProduct: (productId)        => api.get(`/products/${productId}/reviews`).then(r => r.data),
+  create:        (productId, data)  => api.post(`/products/${productId}/reviews`, data).then(r => r.data),
+  update:        (id, data)         => api.put(`/reviews/${id}`, data).then(r => r.data),
+  remove:        (id)               => api.delete(`/reviews/${id}`).then(r => r.data),
+};
+
 export const categoryService = {
   list:   ()           => api.get('/categories').then(r => r.data),
   get:    (id)         => api.get(`/categories/${id}`).then(r => r.data),

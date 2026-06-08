@@ -1,7 +1,7 @@
 // frontend/src/components/ui/Button.jsx
 export default function Button({
   children, onClick, type = 'button', variant = 'primary',
-  disabled = false, className = '', loading = false,
+  disabled = false, className = '', loading = false, ...rest
 }) {
   const base = 'font-semibold px-5 py-2.5 rounded-xl transition-all duration-300 text-sm active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100 flex items-center justify-center gap-2';
   
@@ -18,6 +18,7 @@ export default function Button({
       onClick={onClick}
       disabled={disabled || loading}
       className={`${base} ${variants[variant]} ${className}`}
+      {...rest}
     >
       {loading ? (
         <span className="flex items-center gap-1.5 justify-center">

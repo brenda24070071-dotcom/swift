@@ -32,8 +32,28 @@ async function listProducts(req, res, next) {
       prisma.produto.count({ where }),
     ]);
 
+    // Anexa média e total de avaliações de cada produto (1 query agregada).
+    const ids = produtos.map((p) => p.id);
+    const grupos = ids.length
+      ? await prisma.avaliacao.groupBy({
+          by: ['idProduto'],
+          where: { idProduto: { in: ids } },
+          _avg: { nota: true },
+          _count: { _all: true },
+        })
+      : [];
+    const porProduto = new Map(grupos.map((g) => [g.idProduto, g]));
+    const data = produtos.map((p) => {
+      const g = porProduto.get(p.id);
+      return {
+        ...p,
+        media: g?._avg.nota ? parseFloat(g._avg.nota.toFixed(1)) : 0,
+        totalAvaliacoes: g?._count._all || 0,
+      };
+    });
+
     return res.json({
-      data: produtos,
+      data,
       total,
       page: parseInt(page),
       totalPages: Math.ceil(total / parseInt(limit)),
@@ -46,12 +66,24 @@ async function listProducts(req, res, next) {
 /** GET /api/products/:id */
 async function getProduct(req, res, next) {
   try {
+    const id = parseInt(req.params.id);
     const produto = await prisma.produto.findUnique({
-      where: { id: parseInt(req.params.id) },
+      where: { id },
       include: { categoria: true },
     });
     if (!produto) return res.status(404).json({ error: 'Produto não encontrado.' });
-    return res.json(produto);
+
+    const agg = await prisma.avaliacao.aggregate({
+      where: { idProduto: id },
+      _avg: { nota: true },
+      _count: { _all: true },
+    });
+
+    return res.json({
+      ...produto,
+      media: agg._avg.nota ? parseFloat(agg._avg.nota.toFixed(1)) : 0,
+      totalAvaliacoes: agg._count._all,
+    });
   } catch (err) {
     next(err);
   }

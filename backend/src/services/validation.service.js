@@ -54,6 +54,33 @@ const schemas = {
       }),
   }),
 
+  // ── Avaliação (Review) ─────────────────────────────────────────────────────
+  avaliacao: Joi.object({
+    idProduto:  Joi.number().integer().positive().required().messages({
+      'any.required': 'Produto é obrigatório.',
+    }),
+    nota:       Joi.number().integer().min(1).max(5).required().messages({
+      'number.base': 'Nota deve ser um número.',
+      'number.min':  'Nota deve ser de 1 a 5 estrelas.',
+      'number.max':  'Nota deve ser de 1 a 5 estrelas.',
+      'any.required': 'Nota é obrigatória.',
+    }),
+    comentario: Joi.string().max(1000).optional().allow('').messages({
+      'string.max': 'Comentário deve ter no máximo 1000 caracteres.',
+    }),
+  }),
+
+  // Atualização parcial: produto não muda; nota/comentário opcionais.
+  avaliacaoUpdate: Joi.object({
+    nota:       Joi.number().integer().min(1).max(5).optional().messages({
+      'number.min': 'Nota deve ser de 1 a 5 estrelas.',
+      'number.max': 'Nota deve ser de 1 a 5 estrelas.',
+    }),
+    comentario: Joi.string().max(1000).optional().allow(''),
+  }).min(1).messages({
+    'object.min': 'Informe ao menos um campo para atualizar.',
+  }),
+
   // ── Carrinho ─────────────────────────────────────────────────────────────
   carrinhoItem: Joi.object({
     idProduto:  Joi.number().integer().positive().required(),

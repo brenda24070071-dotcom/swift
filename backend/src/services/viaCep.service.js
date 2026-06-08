@@ -8,6 +8,14 @@ const CACHE_TTL = parseInt(process.env.VIACEP_CACHE_TTL || '300', 10) * 1000; //
 
 class ViaCepService {
   /**
+   * Limpa o cache em memória. Útil para garantir isolamento entre testes
+   * (evita que um CEP consultado anteriormente mascare uma nova requisição).
+   */
+  clearCache() {
+    cache.clear();
+  }
+
+  /**
    * Consulta um CEP e retorna os dados de endereço.
    * Utiliza cache em memória para evitar requisições repetidas.
    * @param {string} cep - CEP com 8 dígitos (apenas números)

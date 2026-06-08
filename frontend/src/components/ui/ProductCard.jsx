@@ -4,6 +4,7 @@ import { useAuth } from '../../hooks/useAuth';
 import { useCart } from '../../hooks/useCart';
 import { formatBRL } from '../../utils/formatCurrency';
 import { wishlistService } from '../../services/cartService';
+import StarRating from './StarRating';
 import { useState } from 'react';
 
 export default function ProductCard({ product, onWishlistToggle }) {
@@ -88,10 +89,25 @@ export default function ProductCard({ product, onWishlistToggle }) {
           )}
         </div>
 
-        <h3 className="font-semibold text-slate-800 text-sm leading-snug line-clamp-2 group-hover:text-indigo-600 transition-colors h-10">
+        <Link
+          to={`/products/${product.id}`}
+          className="font-semibold text-slate-800 text-sm leading-snug line-clamp-2 group-hover:text-indigo-600 transition-colors h-10"
+        >
           {product.nome}
-        </h3>
-        
+        </Link>
+
+        {/* Avaliação média */}
+        <div className="flex items-center gap-1.5 h-5">
+          {product.totalAvaliacoes > 0 ? (
+            <>
+              <StarRating value={Math.round(product.media)} size="sm" />
+              <span className="text-[11px] text-slate-400 font-medium">({product.totalAvaliacoes})</span>
+            </>
+          ) : (
+            <span className="text-[11px] text-slate-300">Sem avaliações</span>
+          )}
+        </div>
+
         <div className="flex items-baseline justify-between mt-auto">
           <p className="text-lg font-extrabold text-slate-900">{formatBRL(product.preco)}</p>
         </div>

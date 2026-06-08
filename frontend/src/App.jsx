@@ -5,7 +5,8 @@ import { CartProvider } from './context/CartContext';
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
 
-import Home       from './pages/Home';
+import Home          from './pages/Home';
+import ProductDetail from './pages/ProductDetail';
 import Login      from './pages/Login';
 import Register   from './pages/Register';
 import Profile    from './pages/Profile';
@@ -41,6 +42,7 @@ export default function App() {
               <Routes>
                 {/* Públicas */}
                 <Route path="/"          element={<Home />} />
+                <Route path="/products/:id" element={<ProductDetail />} />
                 <Route path="/login"     element={<Login />} />
                 <Route path="/register"  element={<Register />} />
 

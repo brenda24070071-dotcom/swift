@@ -34,6 +34,7 @@ model Produto {
   categoria     Categoria?     @relation(fields: [idCategoria], references: [id], onDelete: SetNull)
   carrinhoItens CarrinhoItem[]
   wishlistItens Wishlist[]
+  avaliacoes    Avaliacao[]
 
   @@map("produtos")
 }
@@ -56,6 +57,7 @@ model Usuario {
   carrinhoItens CarrinhoItem[]
   wishlistItens Wishlist[]
   pedidos       Pedido[]
+  avaliacoes    Avaliacao[]
 
   @@map("usuarios")
 }
@@ -84,6 +86,21 @@ model Wishlist {
 
   @@unique([idUsuario, idProduto])
   @@map("wishlist")
+}
+
+model Avaliacao {
+  id         Int      @id @default(autoincrement())
+  idProduto  Int      @map("id_produto")
+  idUsuario  Int      @map("id_usuario")
+  nota       Int // 1 a 5 estrelas (validado na aplicação)
+  comentario String?
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+  produto    Produto  @relation(fields: [idProduto], references: [id], onDelete: Cascade)
+  usuario    Usuario  @relation(fields: [idUsuario], references: [id], onDelete: Cascade)
+
+  @@unique([idUsuario, idProduto]) // 1 avaliação por usuário por produto
+  @@map("avaliacoes")
 }
 
 model Pedido {

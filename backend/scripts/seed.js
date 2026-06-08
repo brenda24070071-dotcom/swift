@@ -12,6 +12,7 @@ async function main() {
   // Limpa o banco de dados antes de popular
   console.log('🧹 Limpando dados antigos...');
   await prisma.pedido.deleteMany({});
+  await prisma.avaliacao.deleteMany({});
   await prisma.wishlist.deleteMany({});
   await prisma.carrinhoItem.deleteMany({});
   await prisma.produto.deleteMany({});
@@ -123,6 +124,20 @@ async function main() {
     await prisma.pedido.create({ data: ped });
   }
   console.log(`✅ ${pedidosData.length} pedidos criados.`);
+
+  // ── 7. Avaliações (5 registros) ─────────────────────────────────────────
+  const avaliacoesData = [
+    { idUsuario: usuarios[1].id, idProduto: produtos[0].id, nota: 5, comentario: 'Performance absurda em 1440p. Recomendo!' },
+    { idUsuario: usuarios[2].id, idProduto: produtos[0].id, nota: 4, comentario: 'Excelente, mas esquenta um pouco sob carga.' },
+    { idUsuario: usuarios[3].id, idProduto: produtos[2].id, nota: 5, comentario: 'Melhor CPU custo-benefício para games.' },
+    { idUsuario: usuarios[2].id, idProduto: produtos[5].id, nota: 4, comentario: 'Leitura rapidíssima, instalação simples.' },
+    { idUsuario: usuarios[4].id, idProduto: produtos[6].id, nota: 3, comentario: 'Bom teclado, mas o cabo é curto.' },
+  ];
+
+  for (const av of avaliacoesData) {
+    await prisma.avaliacao.create({ data: av });
+  }
+  console.log(`✅ ${avaliacoesData.length} avaliações criadas.`);
 
   console.log('\n🎉 Seed concluído com sucesso!');
   console.log('   Admin:      admin@swiftcart.dev   / Admin@123');
