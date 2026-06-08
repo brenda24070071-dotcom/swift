@@ -1,0 +1,258 @@
+{
+  "info": {
+    "name": "SwiftCart API",
+    "description": "Coleção de requisições da API SwiftCart E-commerce — Sprint 1",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "base_url", "value": "http://localhost:3000/api" },
+    { "key": "token",    "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "UC01 - Registrar Usuário",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/auth/register",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"João da Silva\",\n  \"email\": \"joao@exemplo.com\",\n  \"senha\": \"Senha@123\",\n  \"cep\": \"01001000\"\n}"
+            }
+          }
+        },
+        {
+          "name": "UC02 - Login",
+          "event": [{
+            "listen": "test",
+            "script": {
+              "exec": [
+                "const res = pm.response.json();",
+                "if (res.token) pm.collectionVariables.set('token', res.token);"
+              ]
+            }
+          }],
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/auth/login",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@swiftcart.dev\",\n  \"senha\": \"Admin@123\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Usuário",
+      "item": [
+        {
+          "name": "UC03 - GET Perfil",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/users/me",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }]
+          }
+        },
+        {
+          "name": "UC03 - PUT Editar Perfil",
+          "request": {
+            "method": "PUT",
+            "url": "{{base_url}}/users/me",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type",  "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"João Silva Editado\",\n  \"cep\": \"30112010\",\n  \"numero\": \"42\"\n}"
+            }
+          }
+        },
+        {
+          "name": "CEP Lookup (ViaCEP proxy)",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/users/cep/01001000"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Produtos",
+      "item": [
+        {
+          "name": "UC08 - Listar Produtos",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/products?page=1&limit=12",
+              "query": [
+                { "key": "page",  "value": "1" },
+                { "key": "limit", "value": "12" },
+                { "key": "search", "value": "", "disabled": true },
+                { "key": "categoria", "value": "", "disabled": true }
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET Produto por ID",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/products/1"
+          }
+        },
+        {
+          "name": "UC05 - Criar Produto (Admin)",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/products",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type",  "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"RTX 5090 24GB\",\n  \"descricao\": \"GPU de última geração\",\n  \"preco\": 9999.99,\n  \"estoque\": 5,\n  \"idCategoria\": 1\n}"
+            }
+          }
+        },
+        {
+          "name": "UC06 - Editar Produto (Admin)",
+          "request": {
+            "method": "PUT",
+            "url": "{{base_url}}/products/1",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type",  "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"preco\": 4599.99,\n  \"estoque\": 10\n}"
+            }
+          }
+        },
+        {
+          "name": "UC07 - Excluir Produto (Admin)",
+          "request": {
+            "method": "DELETE",
+            "url": "{{base_url}}/products/1",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Categorias",
+      "item": [
+        {
+          "name": "Listar Categorias",
+          "request": { "method": "GET", "url": "{{base_url}}/categories" }
+        },
+        {
+          "name": "UC12 - Criar Categoria (Admin)",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/categories",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type",  "value": "application/json" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"nome\": \"Coolers & Refrigeração\"\n}" }
+          }
+        },
+        {
+          "name": "UC13 - Excluir Categoria (Admin)",
+          "request": {
+            "method": "DELETE",
+            "url": "{{base_url}}/categories/99",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Carrinho",
+      "item": [
+        {
+          "name": "UC09 - Ver Carrinho",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/cart",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }]
+          }
+        },
+        {
+          "name": "UC09 - Adicionar ao Carrinho",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/cart",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type",  "value": "application/json" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"idProduto\": 1,\n  \"quantidade\": 2\n}" }
+          }
+        },
+        {
+          "name": "UC10 - Atualizar Quantidade",
+          "request": {
+            "method": "PUT",
+            "url": "{{base_url}}/cart/1",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type",  "value": "application/json" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"quantidade\": 3\n}" }
+          }
+        },
+        {
+          "name": "UC11 - Remover do Carrinho",
+          "request": {
+            "method": "DELETE",
+            "url": "{{base_url}}/cart/1",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }]
+          }
+        },
+        {
+          "name": "UC15 - Checkout",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/cart/checkout",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Wishlist",
+      "item": [
+        {
+          "name": "UC14 - Ver Wishlist",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/wishlist",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }]
+          }
+        },
+        {
+          "name": "UC14 - Toggle Favorito",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/wishlist",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type",  "value": "application/json" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"idProduto\": 2\n}" }
+          }
+        }
+      ]
+    }
+  ]
+}

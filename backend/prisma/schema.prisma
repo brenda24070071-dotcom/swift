@@ -1,0 +1,98 @@
+// backend/prisma/schema.prisma
+// Banco: SQLite — sem instalação, arquivo local gerado automaticamente
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Categoria {
+  id        Int       @id @default(autoincrement())
+  nome      String    @unique
+  slug      String    @unique
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  produtos  Produto[]
+
+  @@map("categorias")
+}
+
+model Produto {
+  id            Int            @id @default(autoincrement())
+  nome          String
+  descricao     String?
+  preco         Float
+  estoque       Int            @default(0)
+  imagemUrl     String?        @map("imagem_url")
+  idCategoria   Int?           @map("id_categoria")
+  createdAt     DateTime       @default(now()) @map("created_at")
+  updatedAt     DateTime       @updatedAt @map("updated_at")
+  categoria     Categoria?     @relation(fields: [idCategoria], references: [id], onDelete: SetNull)
+  carrinhoItens CarrinhoItem[]
+  wishlistItens Wishlist[]
+
+  @@map("produtos")
+}
+
+model Usuario {
+  id            Int            @id @default(autoincrement())
+  nome          String
+  email         String         @unique
+  senha         String
+  cep           String?
+  logradouro    String?
+  numero        String?
+  complemento   String?
+  bairro        String?
+  cidade        String?
+  uf            String?
+  tipoAcesso    String         @default("CLIENTE") @map("tipo_acesso")
+  createdAt     DateTime       @default(now()) @map("created_at")
+  updatedAt     DateTime       @updatedAt @map("updated_at")
+  carrinhoItens CarrinhoItem[]
+  wishlistItens Wishlist[]
+  pedidos       Pedido[]
+
+  @@map("usuarios")
+}
+
+model CarrinhoItem {
+  id         Int      @id @default(autoincrement())
+  idUsuario  Int      @map("id_usuario")
+  idProduto  Int      @map("id_produto")
+  quantidade Int
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+  usuario    Usuario  @relation(fields: [idUsuario], references: [id], onDelete: Cascade)
+  produto    Produto  @relation(fields: [idProduto], references: [id], onDelete: Cascade)
+
+  @@unique([idUsuario, idProduto])
+  @@map("carrinho_itens")
+}
+
+model Wishlist {
+  id         Int      @id @default(autoincrement())
+  idUsuario  Int      @map("id_usuario")
+  idProduto  Int      @map("id_produto")
+  createdAt  DateTime @default(now()) @map("created_at")
+  usuario    Usuario  @relation(fields: [idUsuario], references: [id], onDelete: Cascade)
+  produto    Produto  @relation(fields: [idProduto], references: [id], onDelete: Cascade)
+
+  @@unique([idUsuario, idProduto])
+  @@map("wishlist")
+}
+
+model Pedido {
+  id        Int      @id @default(autoincrement())
+  idUsuario Int      @map("id_usuario")
+  status    String   @default("PENDENTE")
+  total     Float
+  createdAt DateTime @default(now()) @map("created_at")
+  usuario   Usuario  @relation(fields: [idUsuario], references: [id])
+
+  @@map("pedidos")
+}

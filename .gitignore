@@ -1,0 +1,44 @@
+# Dependências
+node_modules/
+
+# Variáveis de ambiente (NUNCA versionar)
+.env
+*.env
+!*.env.example
+
+# Build / dist
+dist/
+build/
+out/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Prisma — banco SQLite local (não versionar dados)
+backend/dev.db
+backend/dev.db-journal
+backend/test.db
+backend/test.db-journal
+
+# Prisma migrations (versionar em produção; omitir em projeto acadêmico)
+# backend/prisma/migrations/
+
+# Cobertura de testes
+coverage/
+.nyc_output/
+
+# Cypress
+frontend/cypress/videos/
+frontend/cypress/screenshots/
+
+# SO
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo

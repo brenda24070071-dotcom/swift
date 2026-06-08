@@ -1,0 +1,20 @@
+{
+  "usuario_valido": {
+    "nome":  "Usuário Fixture",
+    "email": "fixture@swiftcart.e2e",
+    "senha": "Fixture@123"
+  },
+  "produto_mock": {
+    "id":    1,
+    "nome":  "RTX 4070 Ti Super 16GB",
+    "preco": 4799.99,
+    "estoque": 8
+  },
+  "cep_valido": {
+    "cep":        "01001-000",
+    "logradouro": "Praça da Sé",
+    "bairro":     "Sé",
+    "localidade": "São Paulo",
+    "uf":         "SP"
+  }
+}

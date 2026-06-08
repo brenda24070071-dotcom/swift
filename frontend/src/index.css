@@ -1,0 +1,79 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-slate-50 text-slate-800 antialiased selection:bg-indigo-500 selection:text-white;
+  }
+  
+  /* Custom modern scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-slate-100;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-slate-300 rounded-full hover:bg-slate-400 transition-colors;
+  }
+}
+
+@layer components {
+  /* Premium buttons with active micro-interactions */
+  .btn-primary {
+    @apply relative overflow-hidden bg-gradient-to-r from-indigo-600 to-blue-600 text-white font-semibold px-5 py-2.5 rounded-xl transition-all duration-300 hover:from-indigo-700 hover:to-blue-700 active:scale-95 shadow-md shadow-indigo-100 hover:shadow-indigo-200 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100;
+  }
+  .btn-secondary {
+    @apply bg-white text-slate-700 border border-slate-200 font-semibold px-5 py-2.5 rounded-xl transition-all duration-300 hover:bg-slate-50 hover:border-slate-300 active:scale-95 shadow-sm disabled:opacity-50;
+  }
+  .btn-danger {
+    @apply bg-red-50 text-red-600 border border-red-100 font-semibold px-5 py-2.5 rounded-xl transition-all duration-300 hover:bg-red-100 active:scale-95 disabled:opacity-50;
+  }
+  
+  /* Premium Card Component with glow hover */
+  .card {
+    @apply bg-white rounded-2xl shadow-premium border border-slate-100/80 p-6 transition-all duration-300 hover:shadow-lg hover:border-slate-200/50;
+  }
+  
+  /* Input fields with glowing focus ring */
+  .input-field {
+    @apply w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 bg-slate-50/50 focus:bg-white;
+  }
+
+  /* Glassmorphism helpers */
+  .glass-header {
+    @apply backdrop-blur-md bg-white/80 border-b border-slate-100/80;
+  }
+}
+
+/* Custom Keyframe Animations for entry */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Glow animation */
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(99, 102, 241, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(99, 102, 241, 0.25);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 3s infinite ease-in-out;
+}
