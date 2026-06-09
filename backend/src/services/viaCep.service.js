@@ -62,7 +62,9 @@ class ViaCepService {
       return sanitized;
     } catch (error) {
       if (error.status) throw error; // re-throw dos erros já tratados
-      console.error('[ViaCepService] Erro na requisição:', error.message);
+      if (process.env.NODE_ENV !== 'test') {
+        console.error('[ViaCepService] Erro na requisição:', error.message);
+      }
       throw Object.assign(
         new Error('Não foi possível consultar o CEP. Tente novamente ou preencha o endereço manualmente.'),
         { status: 503 }

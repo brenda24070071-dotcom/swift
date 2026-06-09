@@ -87,6 +87,22 @@ describe('UC14 — Wishlist (Favoritos)', () => {
 
   it('deve remover produto dos favoritos', () => {
     cy.visit('/wishlist');
-    cy.get('button').contains('✕').first().click({ force: true });
+    // Verifica que existem itens na lista
+    cy.get('button[title="Remover dos favoritos"]').should('have.length.at.least', 1);
+    
+    // Guarda a quantidade de itens antes de remover
+    cy.get('button[title="Remover dos favoritos"]').then(($buttons) => {
+      const initialCount = $buttons.length;
+      
+      // Clica no primeiro botão de remoção
+      cy.wrap($buttons).first().click();
+      
+      // Verifica que o número de botões de remoção diminuiu em 1
+      if (initialCount > 1) {
+        cy.get('button[title="Remover dos favoritos"]').should('have.length', initialCount - 1);
+      } else {
+        cy.contains('Você não tem favoritos cadastrados').should('be.visible');
+      }
+    });
   });
 });

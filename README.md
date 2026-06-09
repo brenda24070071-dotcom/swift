@@ -2,8 +2,6 @@
 
 Plataforma de e-commerce especializada em **hardware e periféricos** para entusiastas de tecnologia, gamers e montadores de PC.
 
-> **Sprint 1 — Entrega 1** | 15/05/2026
-
 ---
 
 ## ✅ Funcionalidades (Sprint 1)
@@ -45,7 +43,6 @@ Plataforma de e-commerce especializada em **hardware e periféricos** para entus
 | **npm** | 9.x | `npm -v` |
 | Git | qualquer | `git --version` |
 
-> ✅ Só isso. Sem Docker. Sem PostgreSQL. Sem configuração extra.
 
 ---
 
@@ -216,14 +213,6 @@ curl http://localhost:3000/health
 
 ---
 
-## 👥 Equipe
-
-| Nome | Função |
-|------|--------|
-| [Integrante 1] | Full-Stack / Líder |
-| [Integrante 2] | Backend |
-| [Integrante 3] | Frontend |
-| [Integrante 4] | QA / Testes |
 
 ---
 

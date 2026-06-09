@@ -36,6 +36,8 @@ export default function ProductDetail() {
   useEffect(() => {
     setLoading(true);
     setError('');
+    setFormOk('');
+    setFormError('');
     Promise.all([productService.get(id), reviewService.listByProduct(id)])
       .then(([prod, revs]) => {
         setProduct(prod);
@@ -125,6 +127,12 @@ export default function ProductDetail() {
       <section className="mt-8">
         <h2 className="text-lg font-bold text-slate-800 mb-4">Avaliações de clientes</h2>
 
+        {formOk && (
+          <p data-cy="review-success" className="text-xs text-emerald-600 font-medium mb-4 bg-emerald-50 border border-emerald-100 rounded-xl px-4 py-2.5">
+            {formOk}
+          </p>
+        )}
+
         {/* Formulário (apenas logado e que ainda não avaliou) */}
         {user && !minhaAvaliacao && (
           <form
@@ -150,7 +158,6 @@ export default function ProductDetail() {
             />
 
             {formError && <p data-cy="review-error" className="text-xs text-rose-500 font-medium">{formError}</p>}
-            {formOk && <p data-cy="review-success" className="text-xs text-emerald-600 font-medium">{formOk}</p>}
 
             <Button type="submit" loading={submitting} className="w-fit" data-cy="review-submit">
               Enviar avaliação

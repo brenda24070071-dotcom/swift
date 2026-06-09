@@ -1,5 +1,4 @@
 # Documentação de Casos de Uso — SwiftCart E-commerce
-**Sprint 1 | 15/05/2026**
 
 ---
 

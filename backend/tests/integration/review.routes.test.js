@@ -6,10 +6,10 @@
  */
 require('dotenv').config({ path: require('path').join(__dirname, '../../.env') });
 
-const bcrypt  = require('bcryptjs');
+const bcrypt = require('bcryptjs');
 const request = require('supertest');
-const app     = require('../../src/app');
-const prisma  = require('../../src/models');
+const app = require('../../src/app');
+const prisma = require('../../src/models');
 
 const MARK = '@test-swiftcart.dev';
 const SENHA = 'Senha@123';
@@ -50,8 +50,8 @@ beforeAll(async () => {
   await criarUsuario('Admin Review', `rev-admin${MARK}`, 'ADMIN');
 
   clienteToken = await login(`rev-cliente${MARK}`);
-  outroToken   = await login(`rev-outro${MARK}`);
-  adminToken   = await login(`rev-admin${MARK}`);
+  outroToken = await login(`rev-outro${MARK}`);
+  adminToken = await login(`rev-admin${MARK}`);
 });
 
 afterAll(async () => {
@@ -132,7 +132,7 @@ describe('GET /api/products/:id/reviews — média reflete o estado real', () =>
     // Força todas as notas deste produto para 5 → média deve virar 5.
     await prisma.avaliacao.updateMany({
       where: { idProduto: produto.id },
-      data:  { nota: 5 },
+      data: { nota: 5 },
     });
 
     const res = await request(app).get(`/api/products/${produto.id}/reviews`);

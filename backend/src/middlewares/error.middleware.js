@@ -3,7 +3,9 @@
  * Compatível com Prisma + SQLite.
  */
 function errorMiddleware(err, req, res, _next) {
-  console.error(`[ERROR] ${req.method} ${req.path}:`, err.message);
+  if (process.env.NODE_ENV !== 'test') {
+    console.error(`[ERROR] ${req.method} ${req.path}:`, err.message);
+  }
 
   // Erros de validação Joi
   if (err.isJoi) {

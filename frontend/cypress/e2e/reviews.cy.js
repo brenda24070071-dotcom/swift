@@ -9,7 +9,7 @@ const api = Cypress.env('apiUrl');
 
 /** Registra e autentica um usuário único; retorna o e-mail. */
 function novoUsuarioLogado() {
-  const email = `review_${Date.now()}_${Math.floor(Math.random() * 1e4)}@swiftcart.e2e`;
+  const email = `review_${Date.now()}_${Math.floor(Math.random() * 1e4)}@swiftcart.com`;
   const senha = 'Teste@123';
   cy.request('POST', `${api}/auth/register`, { nome: 'Avaliador E2E', email, senha });
   cy.request('POST', `${api}/auth/login`, { email, senha }).then((res) => {
@@ -48,7 +48,12 @@ describe('Avaliações de Produto', () => {
 
     cy.get('[data-cy=review-form] [data-cy=star-5]').click();
     cy.get('[data-cy=review-comment]').type('Produto excelente, entrega rápida!');
+    cy.intercept('POST', '**/api/products/*/reviews').as('postReview');
     cy.get('[data-cy=review-submit]').click();
+
+    cy.wait('@postReview').then((interception) => {
+      expect(interception.response.statusCode).to.eq(201);
+    });
 
     cy.get('[data-cy=review-success]').should('be.visible');
     cy.get('[data-cy=review-list]')
