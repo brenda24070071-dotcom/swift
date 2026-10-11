@@ -9,6 +9,7 @@
     "test": "jest --runInBand",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage --runInBand",
+    "test:apa": "jest tests/unit/regression_oracle.test.js",
     "seed": "node scripts/seed.js",
     "db:migrate": "npx prisma migrate dev --name init",
     "db:reset": "npx prisma migrate reset --force && node scripts/seed.js",
