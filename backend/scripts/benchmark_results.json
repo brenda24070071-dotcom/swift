@@ -1,0 +1,130 @@
+{
+  "F3_validateStockCross": [
+    {
+      "n": 10,
+      "tBaseNs": 2400,
+      "tOptNs": 1200,
+      "speedup": 2
+    },
+    {
+      "n": 100,
+      "tBaseNs": 38400,
+      "tOptNs": 3100,
+      "speedup": 12.39
+    },
+    {
+      "n": 1000,
+      "tBaseNs": 529900,
+      "tOptNs": 28800,
+      "speedup": 18.4
+    },
+    {
+      "n": 5000,
+      "tBaseNs": 13764400,
+      "tOptNs": 270100,
+      "speedup": 50.96
+    },
+    {
+      "n": 10000,
+      "tBaseNs": 56371900,
+      "tOptNs": 598200,
+      "speedup": 94.24
+    }
+  ],
+  "F5_getResumoBatch": [
+    {
+      "n": 10,
+      "tBaseNs": 7000,
+      "tOptNs": 3900,
+      "speedup": 1.79
+    },
+    {
+      "n": 100,
+      "tBaseNs": 99100,
+      "tOptNs": 20100,
+      "speedup": 4.93
+    },
+    {
+      "n": 1000,
+      "tBaseNs": 7876400,
+      "tOptNs": 213900,
+      "speedup": 36.82
+    },
+    {
+      "n": 5000,
+      "tBaseNs": 36456200,
+      "tOptNs": 1008700,
+      "speedup": 36.14
+    },
+    {
+      "n": 10000,
+      "tBaseNs": 147054300,
+      "tOptNs": 2137000,
+      "speedup": 68.81
+    }
+  ],
+  "F7_removeNullish": [
+    {
+      "n": 10,
+      "tBaseNs": 1900,
+      "tOptNs": 600,
+      "speedup": 3.17
+    },
+    {
+      "n": 100,
+      "tBaseNs": 17800,
+      "tOptNs": 8300,
+      "speedup": 2.14
+    },
+    {
+      "n": 1000,
+      "tBaseNs": 188700,
+      "tOptNs": 82100,
+      "speedup": 2.3
+    },
+    {
+      "n": 10000,
+      "tBaseNs": 3090600,
+      "tOptNs": 1558500,
+      "speedup": 1.98
+    },
+    {
+      "n": 100000,
+      "tBaseNs": 38418900,
+      "tOptNs": 17973000,
+      "speedup": 2.14
+    }
+  ],
+  "F8_simulateCepLookupDispatch": [
+    {
+      "n": 10,
+      "tBaseNs": 2600,
+      "tOptNs": 2500,
+      "speedup": 1.04
+    },
+    {
+      "n": 100,
+      "tBaseNs": 11000,
+      "tOptNs": 9300,
+      "speedup": 1.18
+    },
+    {
+      "n": 1000,
+      "tBaseNs": 91600,
+      "tOptNs": 94600,
+      "speedup": 0.97
+    },
+    {
+      "n": 10000,
+      "tBaseNs": 700900,
+      "tOptNs": 691000,
+      "speedup": 1.01
+    },
+    {
+      "n": 100000,
+      "tBaseNs": 6685400,
+      "tOptNs": 6901900,
+      "speedup": 0.97
+    }
+  ]
+}
