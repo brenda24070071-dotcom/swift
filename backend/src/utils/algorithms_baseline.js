@@ -1,4 +1,47 @@
-const { removeNullish } = require('./helpers');
+// backend/src/utils/algorithms_baseline.js
+// Implementações de referência (Baseline Original) das 8 funções analisadas na Fase 1.
+// Este arquivo serve como ORÁCULO DE REGRESSÃO para garantir que a saída
+// permaneça estritamente idêntica após qualquer refatoração (Meta D).
+
+let helpers;
+try {
+  helpers = require('./helpers');
+} catch (e) {
+  try {
+    helpers = require('../../swift_repo/backend/src/utils/helpers');
+  } catch (e2) {
+    helpers = {};
+  }
+}
+const { generateSlug, removeNullish } = helpers;
+
+/**
+ * F1: enrichProducts (Baseline Quadrático O(p * a))
+ * Realiza join em memória de produtos e avaliações via busca linear filter() aninhada.
+ */
+function enrichProductsBaseline(produtos, avaliacoes) {
+  return produtos.map((p) => {
+    const revs = avaliacoes.filter((av) => av.idProduto === p.id);
+    const total = revs.length;
+    const soma = revs.reduce((acc, r) => acc + r.nota, 0);
+    const media = total > 0 ? parseFloat((soma / total).toFixed(1)) : 0;
+    return {
+      ...p,
+      media,
+      totalAvaliacoes: total,
+    };
+  });
+}
+
+/**
+ * F2: deduplicateCartItems (Baseline Quadrático O(n^2))
+ * Remove itens com mesmo idProduto usando comparação todos-contra-todos via findIndex().
+ */
+function deduplicateCartItemsBaseline(items) {
+  return items.filter((item, index, self) => {
+    return self.findIndex((other) => other.idProduto === item.idProduto) === index;
+  });
+}
 
 /**
  * F3: validateStockCross (Baseline Quadrático O(c * e))
@@ -21,6 +64,19 @@ function validateStockCrossBaseline(itensCarrinho, catalogoEstoque) {
 }
 
 /**
+ * F4: simulateSeedCategories (Baseline Sequencial O(N) operações I/O)
+ * Simulação determinística de inserção sequencial vs em lote.
+ */
+function simulateSeedCategoriesBaseline(catsData, dbMock) {
+  const inserted = [];
+  for (const c of catsData) {
+    dbMock.insertSingle(c);
+    inserted.push(c);
+  }
+  return inserted;
+}
+
+/**
  * F5: getResumoBatch (Baseline N+1 queries O(p) operações)
  * Calcula médias e totais executando agregação por produto.
  */
@@ -39,6 +95,11 @@ function getResumoBatchBaseline(produtos, avaliacoes) {
   }
   return result;
 }
+
+/**
+ * F6: generateSlug (Helpers Original - 7 passadas encadeadas)
+ */
+const generateSlugBaseline = generateSlug;
 
 /**
  * F7: removeNullish (Helpers Original - Object.entries + filter + fromEntries)
@@ -64,8 +125,12 @@ function simulateCepLookupDispatchBaseline(events, fetchAddressFn) {
 }
 
 module.exports = {
+  enrichProductsBaseline,
+  deduplicateCartItemsBaseline,
   validateStockCrossBaseline,
+  simulateSeedCategoriesBaseline,
   getResumoBatchBaseline,
+  generateSlugBaseline,
   removeNullishBaseline,
   simulateCepLookupDispatchBaseline,
 };
